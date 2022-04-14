@@ -48,15 +48,7 @@ public class Concesionaria {
         for (int i = 0; i < vehiculos.size(); i++) {
             System.out.println(vehiculos.get(i).getMarca() + " " + vehiculos.get(i).getModelo());
         }
-         //crearAuto("Renault", "Clio", 180000.00, 5);
-           //     System.out.println(crearAuto);
+         
 
-    }
-
-    public int crearAuto(String marca, String modelo, double precio, int puertas) {
-        vehiculos.add(new Auto(marca, modelo, precio, puertas));
-        System.out.println(vehiculos);
-
-        return 1;
     }
 }
