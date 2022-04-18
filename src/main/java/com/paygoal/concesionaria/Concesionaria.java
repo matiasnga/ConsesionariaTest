@@ -39,7 +39,6 @@ public class Concesionaria {
         Collections.sort(vehiculos, Comparator.comparing(Vehiculo::getPrecio));
         int masCaro = vehiculos.size() - 1;
         System.out.println("Vehículo más caro: " + vehiculos.get(masCaro).getMarca() + " " + vehiculos.get(masCaro).getModelo());
-
     }
 
     public static void masBarato() {
@@ -65,6 +64,5 @@ public class Concesionaria {
         for (int i = 0; i < vehiculos.size(); i++) {
             System.out.println(vehiculos.get(i).getMarca() + " " + vehiculos.get(i).getModelo());
         }
-
     }
 }
