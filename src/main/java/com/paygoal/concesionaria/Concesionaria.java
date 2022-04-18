@@ -12,21 +12,13 @@ public class Concesionaria {
     static List<Vehiculo> vehiculos = new ArrayList();
 
     public static void main(String[] args) {
-
         crearAutos();
-
         listarAutos();
-
         System.out.println("============================= ");
-
         masCaro();
-
         masBarato();
-
         filtrarVehiculo("Y");
-
         System.out.println("============================= ");
-
         precioMayorAMenor();
     }
 
@@ -52,12 +44,10 @@ public class Concesionaria {
 
     public static void masBarato() {
         Collections.sort(vehiculos, Comparator.comparing(Vehiculo::getPrecio));
-
         System.out.println("Vehículo más barato: " + vehiculos.get(0).getMarca() + " " + vehiculos.get(0).getModelo());
     }
 
     public static void filtrarVehiculo(String toFilter) {
-
         for (int i = 0; i < vehiculos.size(); i++) {
             if (vehiculos.get(i).getModelo().contains(toFilter)) {
                 Locale locale = new Locale("es", "AR");
@@ -70,9 +60,7 @@ public class Concesionaria {
 
     public static void precioMayorAMenor() {
         Collections.sort(vehiculos, Comparator.comparing(Vehiculo::getPrecio));
-
         Collections.reverse(vehiculos);
-
         System.out.println("Vehículos ordenados por precio de mayor a menor:");
         for (int i = 0; i < vehiculos.size(); i++) {
             System.out.println(vehiculos.get(i).getMarca() + " " + vehiculos.get(i).getModelo());
