@@ -1,68 +1,88 @@
 package com.paygoal.concesionaria;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
 import java.util.List;
-import java.util.Locale;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Concesionaria {
 
     static List<Vehiculo> vehiculos = new ArrayList();
 
-    public static void main(String[] args) {
-        crearAutos();
-        listarAutos();
+    public static void run() {
+        crearVehiculos();
+        listarVehiculos();
         System.out.println("============================= ");
-        masCaro();
-        masBarato();
-        filtrarVehiculo("Y");
+        vehiculoMasCaro();
+        vehiculoMasBarato();
+        filtrarVehiculoPorModelo("Y");
         System.out.println("============================= ");
         precioMayorAMenor();
+        System.out.println("============================= ");
+        listarVehiculosDeLujo();
     }
 
-    public static void crearAutos() {
+    private static void crearVehiculos() {
         vehiculos.add(new Auto("Peugeot", "206", 200000.00, 4));
         vehiculos.add(new Moto("Honda", "Titan", 60000.00, 125));
         vehiculos.add(new Auto("Peugeot", "208", 250000.00, 5));
         vehiculos.add(new Moto("Yamaha", "YBR", 80500.50, 160));
+        vehiculos.add(new AutoElectrico("Tesla", "S", 500000, 4, 160));
+
     }
 
-    public static void listarAutos() {
-        for (int i = 0; i < vehiculos.size(); i++) {
-            System.out.println(vehiculos.get(i));
-        }
+    private static void listarVehiculos() {
+        vehiculos.forEach(v -> {
+            System.out.println(v);
+        });
+
     }
 
-    public static void masCaro() {
-        Collections.sort(vehiculos, Comparator.comparing(Vehiculo::getPrecio));
-        int masCaro = vehiculos.size() - 1;
-        System.out.println("Vehículo más caro: " + vehiculos.get(masCaro).getMarca() + " " + vehiculos.get(masCaro).getModelo());
+    private static void vehiculoMasCaro() {
+        vehiculos.stream()
+                //                .reduce((p1, p2) -> p1.getPrecio() > p2.getPrecio() ? p1 : p2)
+                .max(Comparator.comparing(Vehiculo::getPrecio))
+                .ifPresent(v -> System.out.println("Vehículo más caro: " + v.getMarca() + " " + v.getModelo()));
     }
 
-    public static void masBarato() {
-        Collections.sort(vehiculos, Comparator.comparing(Vehiculo::getPrecio));
-        System.out.println("Vehículo más barato: " + vehiculos.get(0).getMarca() + " " + vehiculos.get(0).getModelo());
+    private static void vehiculoMasBarato() {
+        vehiculos.stream()
+                 .min(Comparator.comparing(Vehiculo::getPrecio))
+                 .ifPresent(v -> System.out.println("Vehículo más barato: " + v.getMarca() + " " + v.getModelo()));
     }
 
-    public static void filtrarVehiculo(String toFilter) {
-        for (int i = 0; i < vehiculos.size(); i++) {
-            if (vehiculos.get(i).getModelo().contains(toFilter)) {
-                Locale locale = new Locale("es", "AR");
-                NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-                String precioFormatter = (fmt.format(vehiculos.get(i).getPrecio()));
-                System.out.println("Vehículo que contiene en el modelo la letra `" + toFilter + "´: " + vehiculos.get(i).getMarca() + " " + vehiculos.get(i).getModelo() + " " + precioFormatter.replaceAll(" ", ""));
+    private static void filtrarVehiculoPorModelo(String toFilter) {
+        System.out.print("Vehículo que contiene en el modelo la letra `" + toFilter + "´: ");
+        vehiculos.stream()
+                .filter(f -> f.getModelo().contains(toFilter))
+                .forEach(v -> {
+                    System.out.println(v);
+                });
+    }
+
+    private static void precioMayorAMenor() {
+        System.out.println("Vehículos ordenados por precio de mayor a menor: ");
+        List<Vehiculo> listaOrdenada = vehiculos.stream().sorted(Comparator.comparingDouble(Vehiculo::getPrecio))
+                .collect(Collectors.toList());
+        Collections.reverse(listaOrdenada);
+        listaOrdenada.forEach(v -> {
+            System.out.println(v);
+        });
+
+    }
+
+    private static void listarVehiculosDeLujo() {
+        System.out.println("Vehículos de lujo: ");
+
+        vehiculos.forEach(v -> {
+            if (v.esDeLujo()) {
+                System.out.println(v);
             }
-        }
+        });
+
     }
 
-    public static void precioMayorAMenor() {
-        Collections.sort(vehiculos, Comparator.comparing(Vehiculo::getPrecio));
-        Collections.reverse(vehiculos);
-        System.out.println("Vehículos ordenados por precio de mayor a menor:");
-        for (int i = 0; i < vehiculos.size(); i++) {
-            System.out.println(vehiculos.get(i).getMarca() + " " + vehiculos.get(i).getModelo());
-        }
-    }
 }

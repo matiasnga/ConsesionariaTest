@@ -1,7 +1,5 @@
 package com.paygoal.concesionaria;
 
-import java.text.NumberFormat;
-import java.util.Locale;
 
 public class Auto extends Vehiculo {
 
@@ -21,10 +19,13 @@ public class Auto extends Vehiculo {
     }
 
     @Override
+    public boolean esDeLujo() {
+        return false;
+    }
+
+    @Override
     public String toString() {
-        Locale locale = new Locale("es", "AR");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-        String precioFormatter = (fmt.format(this.getPrecio()));
-        return "Marca: " + this.getMarca() + " // Modelo: " + this.getModelo() + " // Puertas: " + this.getPuertas() + " // " + precioFormatter.replaceAll(" ", "");
+       
+        return "Marca: " + this.getMarca() + " // Modelo: " + this.getModelo() + " // Puertas: " + this.getPuertas() + " // " + this.precioFormateado();
     }
 }

@@ -1,7 +1,5 @@
 package com.paygoal.concesionaria;
 
-import java.text.NumberFormat;
-import java.util.Locale;
 
 public class Moto extends Vehiculo {
 
@@ -21,12 +19,17 @@ public class Moto extends Vehiculo {
     }
 
     @Override
+    public boolean esDeLujo() {
+        return this.getPrecio() > 70000;
+    }
+
+    @Override
     public String toString() {
-        Locale locale = new Locale("es", "AR");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-        String precioToSend = (fmt.format(this.getPrecio()));
-        return "Marca: " + this.getMarca() + " // Modelo: " + this.getModelo() + " // Cilindrada: " + this.getCilindrada() + "c" + " // " + precioToSend.replaceAll(" ", "");
+        
+        return "Marca: " + this.getMarca() + " // Modelo: " + this.getModelo() + " // Cilindrada: " + this.getCilindrada() + "c" + " // " + this.precioFormateado();
 
     }
 
 }
+
+
